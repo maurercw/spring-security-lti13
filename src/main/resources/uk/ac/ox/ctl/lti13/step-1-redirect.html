@@ -37,6 +37,13 @@
         }
         const platformOrigin = "*"; // Canvas doesn't support origin.
         let targetFrame = window.parent || window.opener
+        
+        if (targetFrame === window) {
+            // We don't have anywhere to send the message to, so we can't do anything.
+            // This seems to happen with Canvas when the LTI launch is done in a new window/tab.
+            console.log('We cannot store state so relying on cookies (which might be blocked)');
+            document.location = url;
+        }
 
         // If we don't get any response from the platform show something to the user.
         setTimeout(function() {
